@@ -6,22 +6,21 @@ const PORT = 4000;
 const http = require('http').Server(app);
 const cors = require('cors');
 
+app.use(cors());
 
-const socketIO = require("socket.io")(http, {
+const socketIO = require('socket.io')(http, {
   cors: {
-    origin: "http://localhost:3000",
-  },
+      origin: "http://localhost:3000"
+  }
 });
 
-// Connection
-
-socketIO.on("connection", (socket) => {
-  console.log(`⭐: ${socket.id} user just connected!`);
-  socket.on("disconnect", () => {
-    console.log("🔥: A user disconnected");
+//Add this before the app.get() block
+socketIO.on('connection', (socket) => {
+  console.log(`⚡: ${socket.id} user just connected!`);
+  socket.on('disconnect', () => {
+    console.log('🔥: A user disconnected');
   });
 });
-
 app.get("/", (req, res) => {
   res.json({ mssg: "WELCOME!!!" });
 });

@@ -1,46 +1,23 @@
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import ChatBar from './ChatBar';
+import ChatBody from './ChatBody';
+import ChatFooter from './ChatFooter';
 
-const ChatPage = () => {
-  const navigate = useNavigate();
+const ChatPage = ({ socket }) => {
+  const [messages, setMessages] = useState([]);
 
-  const handleLeaveChat = () => {
-    localStorage.removeItem("userName");
-    navigate("/");
-    window.location.reload();
-  };
+  useEffect(() => {
+    socket.on('messageResponse', (data) => setMessages([...messages, data]));
+  }, [socket, messages]);
+
   return (
-    <>
-      <header className="chat__mainHeader">
-        <p>Handgout with Colleagues</p>
-        <button className="leaveChat__btn" onClick={handleLeaveChat}>
-          LEAVE CHAT
-        </button>
-      </header>
-
-      {/* This shows messages sent from you */}
-      <div className="message__container">
-        <div className="message__chats">
-          <p className="sender__name">You</p>
-          <div className="message__sender">
-            <p>Hello there</p>
-          </div>
-        </div>
+    <div className="chat">
+      <ChatBar socket={socket} />
+      <div className="chat__main">
+        <ChatBody messages={messages} />
+        <ChatFooter socket={socket} />
       </div>
-
-      {/* This shows messages recevied by you */}
-
-      <div className="message__chats">
-        <p>Other</p>
-        <div className="message__recipient">
-          <p>Hey, I'm good, you ?</p>
-        </div>
-      </div>
-
-      {/* Thisis triggered when a user is typing */}
-      <div className="message__status">
-        <p>Someone is typing....</p>
-      </div>
-    </>
+    </div>
   );
 };
 

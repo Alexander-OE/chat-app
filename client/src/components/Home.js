@@ -6,8 +6,9 @@ const Home = () => {
   const [userName, setUserName] = useState("");
 
   const handleSubmit = (e) => {
-    e.preventDefualt();
+    e.preventDefault();
     localStorage.setItem("userName", userName);
+    console.log(userName);
     navigate("/chat");
   };
   return (
@@ -23,7 +24,7 @@ const Home = () => {
         value={userName}
         onChange={(e) => setUserName(e.target.value)}
       />
-      <button className="home__cta">SIGN IN</button>
+      <button className="home__cta" type="submit">SIGN IN</button>
     </form>
   );
 };
