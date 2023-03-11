@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import Home from './components/Home';
-import { useNavigate } from "react-router-dom";
-// import ChatPage from "./components/ChatPage";
+
 import ChatPage from "./components/ChatPage"
 import socketIO from "socket.io-client";
 
